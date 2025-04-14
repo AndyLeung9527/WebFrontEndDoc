@@ -4737,6 +4737,25 @@ defineProps({
 </template>
 ```
 
+* 模板引用
+
+src/App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { useTemplateRef } from "vue"
+function clickHandle() {
+  console.log(useTemplateRef("container"));
+}
+</script>
+
+<template>
+  <div ref="container">模板引用</div>
+  <button @click="clickHandle">获取元素</button>
+</template>
+```
+
 * getCurrentInstance方法代替this
 
 src/App.vue
