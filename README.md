@@ -4770,3 +4770,1204 @@ console.log(getCurrentInstance())
 <template>
 </template>
 ```
+
+### 十五、TypeScript
+
+#### 1.简介
+
+* TypeScript由微软开发，是基于JavaScript的一个扩展语言
+* TypeScrit包含了JavaScript的所有内容，是JavaScript的超集
+* TypeScript增加了：静态类型检查、接口、泛型等很多现代开发特性，更适合大型项目的开发
+* TypeScript需要编译为JavaScript，然后交给浏览器或其他JavaScript运行环境执行
+
+#### 2.TypeScript作用
+
+* 在代码运行前进行检查，发现代码的错误或不合理之处，减少运行时异常的出现的机率，这种检查叫静态类型检查，TypeScript的核心就是静态类型检查
+* 同样的功能，TypeScript的代码量大于JavaScript，但由于TypeScript的代码结构更加清晰，在后期代码维护中远胜JavaScript
+
+#### 3.TypeScript编译
+
+浏览器不能直接运行TypeScript代码，需要编译为JavaScript再交由浏览器解析器执行
+
+全局安装TypeScript
+
+```bash
+npm i typescript -g
+```
+
+##### Ⅰ.命令行执行
+
+使用命令编译`.ts`文件
+
+```bash
+tsc demo.ts
+```
+
+##### Ⅱ.自动化编译
+
+1. 在项目根目录下创建TypeScript编译控制文件
+
+   ```bash
+   tsc --init
+   ```
+
+   > 命令会生成一个`tsconfig.json`的配置文件，包含编译的配置
+
+2. 监视目录中的`.ts`文件变化
+
+   ```bash
+   tsc --watch
+   ```
+
+   > 注意：修改`tsconfig.json`文件中的`noEmitOnError`配置，取消行注释，当编译出错时不生成`.js`文件
+
+> 注意：一般使用`vue`、`react`等框架开发时，官方脚手架已经提供好自动化编译，无需自行执行编译
+
+#### 4.类型声明
+
+使用`:`对变量和函数形参或返回值，进行类型声明
+
+```typescript
+// 变量a只能存储字符串
+let a: string
+// 变量b只能存储数值
+let b: number
+// 变量c只能存储布尔值
+let c: boolean
+// 字面量类型，变量d只能存储字符串'hello'
+let d: 'hello'
+// 参数x和y必须是数值，返回值也必须是数值
+function count(x: number, y: number): number {
+    return x + y
+}
+```
+
+#### 5.类型推断
+
+```typescript
+// TypeScript会推断出变量e的类型是数值，后续只能存储数值
+let e = 99
+```
+
+#### 6.类型总览
+
+* JavaScript数据类型
+
+  * `string`
+  * `number`
+  * `boolean`
+  * `null`
+  * `undefined`
+  * `bigint`
+  * `symbol`
+  * `object`
+
+  > 注意：其中`object`包含：`Array`、`Function`、`Date`、`Error`等
+
+* TypeScript数据类型
+
+  * “上述`JavaScript`中的所有类型”
+  * `any`
+  * `unknown`
+  * `never`
+  * `void`
+  * `tuple`
+  * `enum`
+  * `type`（用于自定义类型）
+  * `interface`（用于自定义类型）
+
+> 注意：
+>
+> JavaScript中某些内置构造函数如：`Number`、`String`、`Boolean`等用于创建对应的包装对象，在日常开发很少使用，在TypeScript中也是同理，因此在类型声明时，通常使用小写的`number`、`string`、`boolean`等
+>
+> 延申：
+>
+> * 原始类型
+>
+>   如`number`、`string`、`boolean`，在JavaScript中是简单数据类型，在内存中占用空间少，处理速度快
+>
+> * 包装对象
+>
+>   如`Number`对象、`String`对象、`Boolean`对象，是复杂类型，在内存中占用更多空间，日常开发也很少由开发人员自己创建包装对象
+>
+> * 自动装箱
+>
+>   JavaScript在必要时会自动将原始类型包装为对象，以便调用方法或访问属性
+>
+>   ```javascript
+>   // 原始类型字符串
+>   let str = 'hello'
+>   // 当访问str.length时，JavaScript引擎做了以下工作：
+>   let length = (function () {
+>       // 1.自动装箱，创建一个临时的String对象包装原始字符串
+>       let tempStringObject = new String(str)
+>       // 2.访问String对象的length属性
+>       let lengthValue = tempStringObject.length
+>       // 3.销毁临时对象，返回长度值
+>       // JavaScript引擎自动处理对象销毁，开发者无感知
+>               
+>       return lengthValue
+>   })
+>   ```
+
+#### 7.常用类型
+
+##### Ⅰ.any
+
+任意类型，一旦变量类型声明为`any`，则放弃对该变量进行类型检查
+
+```typescript
+// 显式any
+let a: any
+a = 99
+a = 'hello'
+// 隐式any
+let b
+b = 99
+b = 'hello'
+```
+
+> 注意：`any`类型的变量，可以赋值给其他变量
+
+```ty
+let c: any
+let d: string
+d = c
+```
+
+##### Ⅱ.unknown
+
+未知类型，可以理解为一个安全的`any`，适用于不确定数据的具体类型时使用，但是会强制开发者在使用前进行类型检查
+
+```typescript
+let a: unknown
+// 对a的赋值均正常
+a = 99
+a = 'hello'
+// 将b赋值到a
+let b: string
+{
+    // Error：Type 'unknown' is not assignable to type 'string'.
+    //b = a
+    //以下进行类型检查后赋值方能通过
+    // 1.使用判断
+    if (typeof a === 'string') {
+        b = a
+    }
+    // 2.使用断言
+    b = a as string
+    // 3.使用断言
+    b = <string>a
+}
+```
+
+##### Ⅲ.never
+
+任何值都不是，即不能有值，包括`undefined`、`null`、`''`都不行
+
+* 几乎不用`never`去声明变量，因为没有意义
+
+* `never`可用于限制函数的返回值，一般局限于异常、不断循环不会结束（递归）的函数
+
+  ```typescript
+  // 限制throwError函数没有任何返回值（js默认函数都会返回undefined，因此即使没有return也会报错）
+  function throwError(): never {
+      throw new Error('Error')
+  }
+  ```
+
+* `never`一般是`TypeScript`主动推断出来
+
+  ```typescript
+  let a: string = 'hello'
+  if (typeof a === 'string') {
+      console.log(a)
+  } else {
+      // TypeScript会推断出此处的a是never，因为没有任何一个值符合此处的逻辑
+      console.log(a)
+  }
+  ```
+
+##### Ⅳ.void
+
+通常用于函数返回类型的声明，函数返回值为空，调用者也不应以来其返回值进行任何操作
+
+```typescript
+// 以下写法均符合规范（（js默认函数都会返回undefined）
+function logMsg1(): void {
+    console.log('msg')
+}
+function logMsg2(): void {
+    console.log('msg')
+    return
+}
+function logMsg3(): void {
+    console.log('msg')
+    return undefined
+}
+```
+
+> 注意：当返回类型用`undefined`替代`void`时，调用者使用返回值则不会报错
+
+> 特殊情况：使用类型声明限制函数返回类型为`void`时，TypeScript则不会严格要求函数返回空，但是仍然会限制调用者使用返回值
+>
+> ```typescript
+> type Func = () => void
+> // 允许返回非空值
+> const f: Func = () => 200;
+> ```
+>
+> 这是为了确保以下代码成立，`Array.prototype.push`会返回`number`，而`Array.prototype.forEach`方法期望其回调的返回值是`void`，但是箭头函数不使用大括号时会默认返回，基于这类情况所以TypeScript不做严格要求
+>
+> ```typescript
+> const src = [1, 2, 3]
+> const dst = [0]
+> src.forEach((el) => dst.push(el))
+> ```
+
+##### Ⅴ.object
+
+范围太大，实际开发中比较少用
+
+```typescript
+{
+    // a能存储的类型是“非原始类型”
+    let a: object
+    a = {}// 对象
+    a = []// 数组
+    a = function () { }// 函数
+    //以下代码报错
+    //a = 1// Error, Type 'number' is not assignable to type 'object'.
+    //a = true// Error, Type 'boolean' is not assignable to type 'object'.
+    //a = 'hello'// Error, Type 'string' is not assignable to type 'object'.
+    //a = null// Error, Type 'null' is not assignable to type 'object'.
+    //a = undefined// Error, Type 'undefined' is not assignable to type 'object'.
+}
+{
+    // b能存储的类型是可以调用到Object方法的类型（除了null和undefined）
+    let b: Object
+    b = {}// 对象
+    b = []// 数组
+    b = function () { }// 函数
+    b = 1
+    b = true
+    b = 'hello'
+    //以下代码报错
+    //b = null//Error, Type 'null' is not assignable to type 'Object'.
+    //b = undefined//Error, Type 'undefined' is not assignable to type 'Object'.
+}
+```
+
+* 声明对象类型
+
+  ```typescript
+  // name为必选属性，age为可选属性（可用逗号、分号或换行符分隔）
+  let persion: { name: string, age?: number }
+  persion = { name: 'zhangsan', age: 18 }
+  persion = { name: 'lisi' }
+  ```
+
+  * 索引签名
+
+    允许定义对象可以具有任意数量的属性，属性的键和类型是可变的，即动态属性
+
+    ```typescript
+    // name为必选属性，age为可选属性（可用逗号、分号或换行符分隔）
+    let persion: {
+        name: string
+        age?: number
+        [key: string]: any// 索引签名，“key”可以任意命名，类型为字符串，any即任意类型的参数
+    }
+    persion = { name: 'zhangsan', age: 18, gender: 'male', married: false }
+    ```
+
+* 声明函数类型
+
+  ```typescript
+  let add: (a: number, b: number) => number
+  add = function (a, b) {
+      return a + b
+  }
+  ```
+
+  > 注意：
+  >
+  > TypeScript的=>在函数类型声明时表示函数类型，描述其参数类型和返回类型
+  >
+  > JavaScript的=>是一种定义函数的语法，是具体的函数实现
+  >
+  > 函数类型声明还可以使用：接口、自定义类型等方式
+
+* 声明数组类型
+
+  ```typescript
+  // 方式1：直接声明
+  let arr1: string[]
+  arr1 = ['a', 'b']
+  // 方式2：泛型声明
+  let arr2: Array<number>
+  arr2 = [1, 2]
+  ```
+
+##### Ⅵ.tuple
+
+元组（tuple）是一种特殊的数组类型，存储固定数量的元素，并且每个元素的类型是已知的
+
+```typescript
+// 第一个元素必须是string类型，第二个元素必须是number类型
+let arr1: [string, number]
+arr1 = ['hello', 123]
+// 第一个元素必须是string类型，第二个元素可选，如果存在则必须是number类型
+let arr2: [string, number?]
+arr2 = ['hello']
+arr2 = ['hello', 123]
+// 第一个元素必须是string类型，后面的元素可以是任意数量的number类型
+let arr3: [string, ...number[]]
+arr3 = ['hello']
+arr3 = ['hello', 1, 2, 3]
+```
+
+##### Ⅶ.enum
+
+枚举（enum）可以定义一组命名常量，增强代码的可读性和维护性
+
+```typescript
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right
+}
+console.log(Direction.Up)
+```
+
+* 数字枚举
+
+  成员值会自动递增，且数字枚举还具备反向映射的特点，可以通过值来获取对应的枚举成员名称
+
+  ```typescript
+  enum Direction {
+      Up,
+      Down,
+      Left,
+      Right
+  }
+  console.log(Direction)
+  /* 打印Direction会看到如下内容
+  {
+      "0": "Up",
+      "1": "Down",
+      "2": "Left",
+      "3": "Right",
+      "Up": 0,
+      "Down": 1,
+      "Left": 2,
+      "Right": 3
+  }
+  */
+  // 反向映射
+  console.log(Direction[0])
+  ```
+
+  也可以指定成员的初始值，其后的成员值会自动递增
+
+  ```typescript
+  enum Direction {
+      Up = 10,
+      Down,
+      Left,
+      Right
+  }
+  console.log(Direction.Up)// 10
+  console.log(Direction.Down)// 11
+  ```
+
+* 字符串枚举
+
+  枚举成员的值是字符串（没有反向映射）
+
+  ```typescript
+  enum Direction {
+      Up = "up",
+      Down = "down",
+      Left = "left",
+      Right = "right"
+  }
+  console.log(Direction.Up)// "up"
+  ```
+
+* 常量枚举
+
+  常量枚举是一种特殊枚举类型，使用`const`关键字定义，在编译时会被内联，避免生成一些额外的代码
+
+  > 编译时内联：TypeScript编译时，会将枚举成员引用替换为它的实际值，而不是生成额外的枚举对象，减少了JavaScript代码量，并提高运行时的性能
+
+  TypeScript代码如下：
+
+  ```typescript
+  enum Direction {
+      Up,
+      Down,
+      Left,
+      Right
+  }
+  let x = Direction.Up
+  ```
+
+  编译后生成的JavaScript如下：
+
+  ```javascript
+  "use strict";
+  var Direction;
+  (function (Direction) {
+      Direction[Direction["Up"] = 0] = "Up";
+      Direction[Direction["Down"] = 1] = "Down";
+      Direction[Direction["Left"] = 2] = "Left";
+      Direction[Direction["Right"] = 3] = "Right";
+  })(Direction || (Direction = {}));
+  let x = Direction.Up;
+  ```
+
+  使用常量枚举后的TypeScript代码如下：
+
+  ```typescript
+  const enum Direction {
+      Up,
+      Down,
+      Left,
+      Right
+  }
+  let x = Direction.Up
+  ```
+
+  使用常量枚举后的编译后生成的JavaScript如下：
+
+  ```javascript
+  "use strict";
+  let x = 0 /* Direction.Up */;
+
+##### Ⅷ.type
+
+为任意类型创建别名
+
+* 基本用法
+
+  类型别名使用`type`关键字定义
+
+  ```typescript
+  type num = number
+  let price: num
+  price = 10
+  ```
+
+* 联合类型
+
+  表示一个值可以是几种不同类型之一
+
+  ```typescript
+  // 方式1：
+  type Status = number | string
+  function printStatus(status: Status) {
+      console.log(status)
+  }
+  printStatus(404);
+  printStatus('Not found')
+  // 方式2
+  type Gender = '男' | '女'
+  function printGender(str: Gender) {
+      console.log(str)
+  }
+  printGender('男')
+  ```
+
+* 交叉类型
+
+  将多个类型合并为一个类型，合并后的类型将拥有所有被合并类型的成员，交叉类型通常用于对象类型
+
+  ```typescript
+  // 面积
+  type Area = {
+      height: number// 高
+      width: number// 宽
+  }
+  // 地址
+  type Address = {
+      num: number// 楼号
+      cell: number// 单元号
+      room: string// 房间号
+  }
+  // 联合类型
+  type House = Area & Address
+  const house: House = {
+      height: 300,
+      width: 500,
+      num: 6,
+      cell: 3,
+      room: '407'
+  }
+  ```
+
+
+##### Ⅸ.Class
+
+* 属性修饰符
+
+  | 修饰符      | 含义     | 具体规则                         |
+  | ----------- | -------- | -------------------------------- |
+  | `public`    | 公开的   | 可以被：类内部、子类、类外部访问 |
+  | `protected` | 受保护的 | 可以被：类内部、子类访问         |
+  | `private`   | 私有的   | 可以被：类内部访问               |
+  | `readonly`  | 只读属性 | 属性无法修改                     |
+
+  ```typescript
+  class Person {
+      // 属性访问修饰符默认public
+      public name: string
+      constructor(
+          name: string,
+          // 属性的简写形式，直接在构造函数上通过修饰符和属性名称定义
+          protected age: number,
+          private id: number,
+          public readonly male: boolean
+      ) {
+          this.name = name
+      }
+      // 方法访问修饰符默认public
+      public publicMethod() { }
+      protected protectedMethod() { }
+      private privateMethod() { }
+  }
+  class Student extends Person {
+      // override重写父类方法
+      override publicMethod(): void { }
+      childMethod() {
+          this.name
+          this.age
+          //this.id// Error, Property 'id' is private and only accessible within class 'Person'.
+          this.publicMethod();
+          this.protectedMethod();
+          //this.privateMethod();//Error, Property 'privateMethod' is private and only accessible within class 'Person'.
+      }
+  }
+  let p = new Person('zhangsan', 18, 10001, true)
+  p.name
+  //p.age//Error, Property 'age' is protected and only accessible within class 'Person' and its subclasses.
+  //p.id//Error, Property 'id' is private and only accessible within class 'Person'.
+  //p.male = false//Error, Cannot assign to 'male' because it is a read-only property.
+  p.publicMethod()
+  //p.protectedMethod()//Error, Property 'protectedMethod' is protected and only accessible within class 'Person' and its subclasses.
+  //p.privateMethod()//Error, Property 'privateMethod' is private and only accessible within class 'Person'.
+  ```
+
+* 抽象类
+
+  无法被实例化的类，其意义是被继承，用来定义类的结构和行为
+
+  ```typescript
+  abstract class Animal {
+      constructor(public male: boolean) { }
+      // 抽象方法，不具备函数体，只定义函数的参数和返回类型
+      abstract speak(): void
+      // 具体方法，包含实现
+      walk() { }
+  }
+  class Dog extends Animal {
+      // 继承抽象类后，必须实现抽象方法
+      speak(): void { }
+  }
+  //let animal = new Animal(true)//Error, Cannot create an instance of an abstract class.
+  let dog = new Dog(true)
+  dog.speak()
+  dog.walk()
+  ```
+
+##### Ⅹ.Interface
+
+接口（interface）是一种定义结构的方式，主要作用是为“类、对象、函数等规定一种契约，与抽象类不同，它不能包含任何实现
+
+* 定义类结构
+
+  ```typescript
+  // 接口定义
+  interface IPerson {
+      name: string
+      age: number
+      speak(): void
+  }
+  // 接口继承
+  class Person implements IPerson {
+      constructor(
+          public name: string,
+          public age: number
+      ) { }
+      speak(): void { }
+  }
+  ```
+
+* 定义对象结构
+
+  ```typescript
+  // 接口定义
+  interface IUser {
+      name: string
+      age?: number
+      readonly male: boolean
+      speak(): void
+  }
+  // 对象类型定义为接口类型
+  const user: IUser = {
+      name: 'zhangsan',
+      male: true,
+      speak() { }
+  }
+  ```
+
+* 定义函数结构
+
+  ```typescript
+  // 接口定义
+  interface ICount {
+      (x: number, y: number): number;
+  }
+  // 方法类型定义为接口类型
+  const count: ICount = (x, y) => x + y
+  ```
+
+* 接口之间的继承
+
+  ```typescript
+  // 接口定义
+  interface IPerson {
+      name: string
+  }
+  // 接口继承另一个接口
+  interface IStudent extends IPerson {
+      grade: number
+  }
+  ```
+
+* 接口自动合并（可重复定义）
+
+  ```typescript
+  // 多次定义的接口规范会被合并
+  interface IPerson {
+      name: string
+  }
+  interface IPerson {
+      age: number
+  }
+  ```
+
+#### 8.泛型
+
+泛型允许在定义函数、类或接口时，使用类型参数来表示未指定的类型，这些参数在具体使用时，才会被指定具体的类型
+
+主要作用是能让同一段代码适用于多种类型
+
+* 泛型函数
+
+  ```typescript
+  function method<T>(data: T): T {
+      return data;
+  }
+  method<number>(100)
+  method(100)// number可省略
+  method('hello')
+  ```
+
+  * 泛型可以有多个
+
+    ```typescript
+    function method1<T, U>(data1: T, data2: U) { }
+    // 泛型可以使用管道符联合
+    function method2<T, U>(data1: T, data2: U): T | U {
+        return Date.now() % 2 ? data1 : data2
+    }
+    ```
+
+* 泛型接口
+
+  ```typescript
+  interface IPerson<T> {
+      name: T
+  }
+  ```
+
+* 泛型约束
+
+  ```typescript
+  interface IPersion { }
+  function logPerson<T extends IPersion>(p: T) { }
+  ```
+
+* 泛型类
+
+  ```typescript
+  class Person<T> {
+      constructor(public name: T) { }
+  }
+  ```
+
+#### 9.类型声明文件
+
+TypeScript中的一种特殊文件，通常以`.d.ts`作为扩展名，主要作用是为现有的JavaScript代码提供类型信息，使得TypeScript在使用JavaScript库或模块时进行类型检查和提示
+
+```typescript
+// test.ts
+import { add, mul } from './demo.js'
+add(1, 2)
+mul(3, 4)
+```
+
+```typescript
+// demo.js
+export function add(x, y) {
+    return x + y
+}
+export function mul(x, y) {
+    return x * y
+}
+```
+
+```typescript
+// demo.d.ts
+declare function add(x: number, y: number): number
+declare function mul(x: number, y: number): number
+export { add, mul }
+```
+
+> 注意：一般类型声明文件在使用官方的js库时会提供好，不需要开发者编写，通常放在`@types`文件夹下
+
+#### 10.装饰器
+
+##### Ⅰ.简介
+
+装饰器本质是一种特殊的函数，对类、属性、方法、参数进行扩展，装饰器是实验性特性，需要开发者手动调整配置，来开启装饰器支持
+
+装饰器有五种：类装饰器、属性装饰器、方法装饰器、访问器装饰器、参数装饰器
+
+开启装饰器支持：修改`tsconfig.json`文件中的`experimentalDecorators`配置，取消行注释
+
+##### Ⅱ.类装饰器
+
+类装饰器是一个应用在类声明上的函数，可以为类添加额外的功能，或添加额外的逻辑
+
+###### i.基本语法
+
+```typescript
+// Demo函数会在Person类定义时执行，target参数是被装饰的类，即Person
+function Demo(target: Function) {
+    console.log(target)
+}
+
+@Demo
+class Person {
+    constructor(public name: string, public age: number) { }
+}
+```
+
+###### ii.应用举例
+
+* 实现`Person`实例调用`toString()`时返回`JSON.stringify`的执行结果
+
+  ```typescript
+  // 使用装饰器重写toString()方法
+  function ToJsonString(target: Function) {
+      target.prototype.toString = function () {
+          return JSON.stringify(this)
+      }
+  }
+  
+  @ToJsonString
+  class Person {
+      constructor(public name: string, public age: number) { }
+  }
+  
+  const p = new Person('zhangsan', 18)
+  console.log(p.toString())
+  ```
+
+* 封闭原型对象
+
+  ```typescript
+  function Seal(target: Function) {
+      // 封闭其原型对象，禁止随意操作其原型对象
+      Object.seal(target.prototype)
+  }
+  
+  @Seal
+  class Person {
+      constructor(public name: string, public age: number) { }
+  }
+  // @ts-ignore
+  Person.prototype.x = 99// Error,Uncaught TypeError: Cannot add property x, object is not extensible
+  ```
+
+###### iii.关于返回值
+
+若类装饰器返回一个新的类，则新类会替代掉被装饰的类（返回`undefined`除外）
+
+```typescript
+function Demo(target: Function) {
+    return class {
+        log() {
+            console.log("新类")
+        }
+    }
+}
+
+@Demo
+class Person {
+    log() {
+        console.log("被装饰类")
+    }
+}
+
+let p = new Person();
+p.log()// '新类'
+```
+
+###### iv.关于构造类型
+
+在TypeScript中，`Function`类型所表示的范围十分广泛，包括：普通函数、箭头函数、方法等等，但并非都可以被`new`关键字实例化
+
+TypeScript声明构造类型，有两种方式：
+
+1. 仅声明构造函数
+
+   ```typescript
+   /* 定义Constructor类型，其含义是构造类型
+   new：表示该类型是可以用new操作符调用
+   ...args：表示构造器可以接受任意数量的参数
+   any[]：表示构造器可以接受任意类型的参数
+   {}：表示返回类型是对象（非null、非undefined的对象）
+   */
+   type Constructor = new (...args: any[]) => {}
+   
+   function method(fn: Constructor) { }
+   class Person { }
+   method(Person)
+   //method(() => { })//Error, Argument of type '() => void' is not assignable to parameter of type 'Constructor'. Type '() => void' provides no match for the signature 'new (...args: any[]): {}'.
+   ```
+
+2. 声明构造函数+指定静态属性
+
+   ```typescript
+   // 定义一个构造类型，且包含一个静态属性wife
+   type Constructor = {
+       new(...args: any[]): {}// 构造签名
+       age: number// age属性
+   }
+   
+   function method(fn: Constructor) { }
+   class Person {
+       static age = 18
+   }
+   method(Person)
+   ```
+
+###### v.高级应用举例
+
+综上所述特性，可以设计更高级的装饰器：设计一个LogTime装饰器，给实例添加一个用于记录创建时间的属性，添加一个读取创建时间的方法
+
+```typescript
+// 定义一个构造类型
+type Constructor = new (...args: any[]) => {}
+
+// 装饰器，使用泛型来约束被装饰的类必须有构造函数
+function LogTime<T extends Constructor>(target: T) {
+    // 新的类继承自被装饰类，则可以确保与被装饰类功能一致
+    return class extends target {
+        // 新增创建时间属性
+        createdTime: Date
+        // 构造函数接受任意多个、任意类型参数
+        constructor(...args: any[]) {
+            super(...args)
+            this.createdTime = new Date();
+        }
+        // 新增读取创建时间的方法
+        getCreatedTime() {
+            return this.createdTime
+        }
+    }
+}
+
+// 新的类添加了getCreatedTime()，使用接口自动合并这个特性，使Person类也拥有getCreatedTime()方法
+interface Person {
+    getCreatedTime(): Date
+}
+
+@LogTime
+class Person { }
+const p = new Person()
+console.log(p.getCreatedTime())
+```
+
+##### Ⅲ.属性装饰器
+
+###### i.基本语法
+
+```typescript
+/*
+target：修饰静态属性时值是类，修饰实例属性时是类的原型对象
+propertyKey：属性名
+*/
+function Demo(target: object, propertyKey: string) {
+    console.log(target, propertyKey)
+}
+
+class Person {
+    @Demo name: string
+    @Demo static age: number
+    constructor(name: string) {
+        this.name = name
+    }
+}
+```
+
+###### ii.应用举例
+
+定义一个State属性装饰器，可以监视属性的修改
+
+```typescript
+function State(target: object, propertyKey: string) {
+    let key = `__${propertyKey}`
+    // 使用defineProperty为类原型添加属性，并配置对应的get与set
+    Object.defineProperty(target, propertyKey, {
+        get() {
+            return this[key]
+        },
+        set(value) {
+            this[key] = value
+            console.log(`${propertyKey}最新值为：${value}`)
+        },
+        enumerable: true,
+        configurable: true
+    })
+
+}
+
+class Person {
+    @State age: number
+    constructor(age: number) {
+        this.age = age
+    }
+}
+let p = new Person(18)
+p.age = 19
+```
+
+##### Ⅳ.方法装饰器
+
+###### i.基本语法
+
+```typescript
+/*
+target：修饰静态方法时值是类，修饰实例方法时是类的原型对象
+propertyKey：方法名
+descriptor：方法的描述对象，里面的value属性是被装饰的方法
+*/
+function Demo(target: object, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log(target)
+    console.log(propertyKey)
+    console.log(descriptor)
+}
+
+class Person {
+    @Demo
+    instanceMethod() { }
+    @Demo
+    static staticMethod() { }
+}
+```
+
+###### ii.应用举例
+
+分别在方法的执行前和执行后追加逻辑，实现切面编程
+
+```typescript
+function Aop(target: object, propertyKey: string, descriptor: PropertyDescriptor) {
+    // 原始方法
+    const original = descriptor.value
+    // 替换原始方法
+    descriptor.value = function (...args: any[]) {
+        console.log(`${propertyKey}开始`)
+        const result = original.call(this, ...args)// 直接调用original会丢失this
+        console.log(`${propertyKey}结束`)
+    }
+}
+
+class Person {
+    @Aop
+    method() {
+        console.log("方法执行")
+    }
+}
+const p = new Person()
+p.method()
+```
+
+##### Ⅴ.访问器装饰器
+
+###### i.基本语法
+
+```typescript
+/*
+target：修饰静态访问器时值是类，修饰实例访问器时是类的原型对象
+propertyKey：访问器名
+descriptor：访问器的描述对象
+*/
+function Demo(target: object, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log(target)
+    console.log(propertyKey)
+    console.log(descriptor)
+}
+
+class Person {
+    @Demo
+    get name() {
+        return 'zhangsan'
+    }
+    @Demo
+    static get age() {
+        return 18
+    }
+}
+```
+
+###### ii.应用举例
+
+对`set`访问器进行限制，范围在0~150
+
+```typescript
+function RangeValidate(target: object, propertyKey: string, descriptor: PropertyDescriptor) {
+    // 原始的setter
+    const originalSetter = descriptor.set
+    // 替换原始的setter
+    descriptor.set = function (value: number) {
+        // 检查值的合法性
+        if (value < 0 || value > 150) {
+            throw new Error(`${propertyKey}的值应该在0~150之间`)
+        }
+        // 如果合法且原始的setter方法存在，则调用原始的setter方法
+        if (originalSetter) {
+            originalSetter.call(this, value)
+        }
+    }
+}
+
+class Person {
+    private _age: number
+    constructor() {
+        this._age = 0
+    }
+    get age() {
+        return this._age
+    }
+    @RangeValidate
+    set age(value) {
+        this._age = value
+    }
+}
+let p = new Person()
+p.age = 200// Error, Uncaught Error: age的值应该在0~150之间
+```
+
+##### Ⅵ.参数装饰器
+
+###### Ⅰ.基本语法
+
+```typescript
+/*
+target：修饰静态方法的参数时值是类，修饰实例方法的参数时是类的原型对象
+propertyKey：参数所在的方法名
+parameterIndex：参数在函数参数列表中的索引，从0开始
+*/
+function Demo(target: object, propertyKey: string, parameterIndex: number) {
+    console.log(target)
+    console.log(propertyKey)
+    console.log(parameterIndex)
+}
+
+class Person {
+    method(@Demo param: any) { }
+}
+```
+
+##### Ⅶ.装饰器工厂
+
+装饰器工厂是一个返回装饰器的函数，则可以实现为装饰器添加参数的效果
+
+以类装饰器为例
+
+```typescript
+// 定义一个装饰器工厂，接受参数n
+function MulLog(n: number) {
+    // 返回一个类装饰器
+    return function (target: Function) {
+        target.prototype.log = function () {
+            for (let i = 0; i < n; i++) {
+                console.log(`${i}: ${this.name}`)
+            }
+        }
+    }
+}
+
+interface Person {
+    log(): void
+}
+
+@MulLog(3)
+class Person {
+    constructor(public name: string) { }
+}
+const p = new Person('zhangsan')
+p.log()
+```
+
+##### Ⅷ.装饰器组合
+
+装饰器可以组合使用，执行顺序为：从上到下（从左到右）执行所有的装饰器工厂，依次获取到装饰器，最后：从下到上（从右到左）执行所有装饰器
+
+以类装饰器为例
+
+```typescript
+// 装饰器1
+function decorator1(taret: Function) {
+    console.log('decorator1')
+}
+// 装饰器工厂2
+function decoratorFactory2() {
+    console.log('decoratorFactory2')
+    // 返回装饰器2
+    return function (target: Function) {
+        console.log("decorator2")
+    }
+}
+// 装饰器工厂3
+function decoratorFactory3() {
+    console.log('decoratorFactory3')
+    // 返回装饰器3
+    return function (target: Function) {
+        console.log("decorator3")
+    }
+}
+// 装饰器4
+function decorator4(taret: Function) {
+    console.log('decorator4')
+}
+
+@decorator1
+@decoratorFactory2()
+@decoratorFactory3()
+@decorator4
+class Person { }
+/*
+decoratorFactory2
+decoratorFactory3
+decorator4
+decorator3
+decorator2
+decorator1
+*/
+```
