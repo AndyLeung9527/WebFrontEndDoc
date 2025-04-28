@@ -3333,7 +3333,7 @@ let e = 99
 >       let lengthValue = tempStringObject.length
 >       // 3.销毁临时对象，返回长度值
 >       // JavaScript引擎自动处理对象销毁，开发者无感知
->                             
+>                                     
 >       return lengthValue
 >   })
 >   ```
@@ -5106,7 +5106,7 @@ export default {
 
 ##### Ⅰ.单文件组件
 
-vue单文件组件（又名`*.vue`文件，缩写SFC），将vue组件的模板、逻辑与样式封装在单个文件中
+vue单文件组件（又名`*.vue`文件，缩写SFC），将vue组件的模板、逻辑与样式封装在单个文件中，一般组件放在src\components文件夹下
 
 > 样式标签中可以添加`scoped`，即样式设定只在当前组件中生效
 
@@ -5134,7 +5134,7 @@ vue组件在使用前需要先被注册
 > 3. 显示组件`<* />`
 
 ```vue
-<!-- src/App.vue -->
+<!-- src\App.vue -->
 <template>
   <MyComponent />
 </template>
@@ -5202,7 +5202,7 @@ Aside.vue --> Aside-B.vue
 ```vue
 <!-- src\App.vue -->
 <script>
-import MyComponent from './components/MyComponent.vue';
+import MyComponent from './components/MyComponent.vue'
 
 export default {
   name: 'App',
@@ -5251,7 +5251,7 @@ export default {
 ```vue
 <!-- src\App.vue -->
 <script>
-import MyComponent from './components/MyComponent.vue';
+import MyComponent from './components/MyComponent.vue'
 
 export default {
   name: 'App',
@@ -5312,7 +5312,7 @@ export default {
 ```vue
 <!-- src\App.vue -->
 <script>
-import MyComponent from './components/MyComponent.vue';
+import MyComponent from './components/MyComponent.vue'
 
 export default {
   name: 'App',
@@ -5358,7 +5358,7 @@ src/App.vue
 ```vue
 <!-- src\App.vue -->
 <script>
-import MyComponent from './components/MyComponent.vue';
+import MyComponent from './components/MyComponent.vue'
 
 export default {
   name: 'App',
@@ -5374,7 +5374,7 @@ export default {
 </script>
 
 <template>
-  <MyComponent @onSending="receiveHandle" />
+  <MyComponent @on-sending="receiveHandle" />
 </template>
 ```
 
@@ -5388,7 +5388,7 @@ export default {
         sendHandle() {
             // 参数1：自定义的事件名称
             // 参数2：传递的数据
-            this.$emit("onSending", "data")
+            this.$emit("on-sending", "data")
         }
     }
 }
@@ -5406,7 +5406,7 @@ export default {
 ```vue
 <!-- src\App.vue -->
 <script>
-import MyComponent from './components/MyComponent.vue';
+import MyComponent from './components/MyComponent.vue'
 
 export default {
   components: {
@@ -5436,7 +5436,7 @@ export default {
   ```vue
   <!-- src\App.vue -->
   <script>
-  import MyComponent from './components/MyComponent.vue';
+  import MyComponent from './components/MyComponent.vue'
   
   export default {
     data() {
@@ -5472,7 +5472,7 @@ export default {
   ```vue
   <!-- src\App.vue -->
   <script>
-  import MyComponent from './components/MyComponent.vue';
+  import MyComponent from './components/MyComponent.vue'
   
   export default {
     components: {
@@ -5499,7 +5499,7 @@ export default {
   ```vue
   <!-- src\App.vue -->
   <script>
-  import MyComponent from './components/MyComponent.vue';
+  import MyComponent from './components/MyComponent.vue'
   
   export default {
     components: {
@@ -5528,7 +5528,7 @@ export default {
   </template>
   ```
 
-  > `v-slot`可以简写为`#`，即`<template v-slot:slot1>`可以简写为`<template #slot1>`
+  > `v-slot`可以简写为`#`，即`<template v-slot:slot1>`可以简写为`<template #slot1>`，默认插槽名字为`default`
 
 
 * 当插槽需要使用子组件域内的数据，可以使用`v-slot`属性向父组件传递数据
@@ -5536,7 +5536,7 @@ export default {
   ```vue
   <!-- src\App.vue -->
   <script>
-  import MyComponent from './components/MyComponent.vue';
+  import MyComponent from './components/MyComponent.vue'
   
   export default {
     components: {
@@ -5575,7 +5575,7 @@ export default {
   ```vue
   <!-- src\App.vue -->
   <script>
-  import MyComponent from './components/MyComponent.vue';
+  import MyComponent from './components/MyComponent.vue'
   
   export default {
     components: {
@@ -5674,8 +5674,8 @@ export default {
 ```vue
 <!-- src\App.vue -->
 <script>
-import MyComponent1 from './components/MyComponent1.vue';
-import MyComponent2 from './components/MyComponent2.vue';
+import MyComponent1 from './components/MyComponent1.vue'
+import MyComponent2 from './components/MyComponent2.vue'
 
 export default {
   components: {
@@ -5720,8 +5720,8 @@ export default {
 ```vue
 <!-- src\App.vue -->
 <script>
-import MyComponent1 from './components/MyComponent1.vue';
-import MyComponent2 from './components/MyComponent2.vue';
+import MyComponent1 from './components/MyComponent1.vue'
+import MyComponent2 from './components/MyComponent2.vue'
 
 export default {
   components: {
@@ -5780,7 +5780,7 @@ export default {
 ```vue
 <!-- src\App.vue -->
 <script>
-import MyComponent from './components/MyComponent.vue';
+import MyComponent from './components/MyComponent.vue'
 
 export default {
   components: {
@@ -5954,20 +5954,27 @@ function clickHandle() {
 
   3. 然后在`script`标签中指定`name`即可：`<script setup name="abc">`
 
-* 创建响应式方法
+
+* getCurrentInstance方法代替this
+
+  src/App.vue
 
   ```vue
   <!-- src\App.vue -->
   <script setup>
-  function clickHandle() {
-    console.log("点击了")
-  }
+  import { getCurrentInstance } from 'vue'
+  console.log(getCurrentInstance())
   </script>
   
   <template>
-    <button @click="clickHandle">按钮</button>
   </template>
   ```
+
+#### 15.Vue3
+
+Vue3推荐使用组合式API，对比Vue2的使用方式有些变化，对以上章节进行补充
+
+##### Ⅰ.*4.模板语法
 
 * 通过ref创建响应式数据
 
@@ -6108,43 +6115,60 @@ function clickHandle() {
   > 2. 对象类型的响应式数据，层级不深，使用`ref`、`reactive`都可以
   > 3. 对象类型的响应式数据，层级较深，推荐使用`reative`
 
-* 计算属性
+##### Ⅱ.*7.事件处理
 
-  ```vue
-  <!-- src\App.vue -->
-  <script setup>
-  import { ref, computed } from 'vue';
-  let content = ref([1, 2, 3])
-  
-  // 这种定义的computed是只读
-  // let contentEmpty = computed(() => {
-  //   return content.value.length > 0 ? 'No' : 'Yes';
-  // })
-  
-  // 这种定义的computed则是可读可写
-  let contentEmpty = computed({
-    get() {
-      return content.value.length > 0 ? 'No' : 'Yes';
-    },
-    set(val) {
-      content.value = val
-    }
-  })
-  
-  function empty() {
-    contentEmpty.value = []
+创建响应式方法
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+function clickHandle() {
+  console.log("点击了")
+}
+</script>
+
+<template>
+  <button @click="clickHandle">按钮</button>
+</template>
+```
+
+##### Ⅲ.*8.计算属性
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { ref, computed } from 'vue'
+let content = ref([1, 2, 3])
+
+// 这种定义的computed是只读
+// let contentEmpty = computed(() => {
+//   return content.value.length > 0 ? 'No' : 'Yes';
+// })
+
+// 这种定义的computed则是可读可写
+let contentEmpty = computed({
+  get() {
+    return content.value.length > 0 ? 'No' : 'Yes';
+  },
+  set(val) {
+    content.value = val
   }
-  </script>
-  
-  <template>
-    <p>{{ contentEmpty }}</p>
-    <button @click="empty">empty</button>
-  </template>
-  ```
+})
 
-* 侦听器
+function empty() {
+  contentEmpty.value = []
+}
+</script>
 
-  vue3中的`watch`只能监视以下四种数据：
+<template>
+  <p>{{ contentEmpty }}</p>
+  <button @click="empty">empty</button>
+</template>
+```
+
+##### Ⅳ.*9.侦听器
+
+* vue3中的`watch`只能监视以下四种数据：
 
   1. `ref`定义的数据
 
@@ -6349,180 +6373,706 @@ function clickHandle() {
   </template>
   ```
 
-* 生命周期函数
+##### Ⅴ.*10.表单输入绑定
 
-  vue3新增创建阶段`setup`生命周期，在`OnBeforeMount`之前
+自定义组件的`v-model`实现
 
-  vue3子组件先挂载，父组件后挂载
+src\App.vue
 
-  ```vue
-  <!-- src\App.vue -->
-  <script setup>
-  import { onMounted } from "vue"
-  
-  onMounted(() => {
-    console.log("on mounted");
-  })
-  </script>
-  
-  <template>
-  </template>
-  ```
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { ref } from 'vue'
+import MyComponent from './components/MyComponent.vue'
+let username = ref('zhangsan')
+</script>
 
-* 响应`props`
+<template>
+    {{ username }}
+
+    <!-- html标签的v-model -->
+    <!-- <input type="text" v-model="username"> -->
+    <!-- v-model的双向绑定底层实现 -->
+    <!-- <input type="text" :value="username" @input="username = $event.target.value"> -->
+
+    <!-- 组件标签的v-model -->
+    <MyComponent v-model="username" />
+    <!-- v-model的双向绑定底层实现 -->
+    <!-- <MyComponent :modelValue="username" @update:modelValue="username = $event" /> -->
+</template>
+```
+
+src\components\MyComponent.vue
+
+```vue
+<!-- src\components\MyComponent.vue -->
+<script setup>
+defineProps(['modelValue'])
+const emit = defineEmits(['update:modelValue'])
+</script>
+
+<template>
+    <input type="text" :value="modelValue" @input="emit('update:modelValue', $event.target.value)">
+</template>
+```
+
+> 注意：
+>
+> 1. 对于原生事件，`$event`是事件对象（有`target`）
+>
+> 2. 对于自定义事件，`$event`是触发事件时所传递的数据（没有`target`）
+>
+> 3. 在`TypeScript`中使用时，`$event.target.value`改为`(<HTMLInputElement>$event.target).value`使其类型合法
+>
+> 4. vue3中默认组件的`v-model`的`props`是`modelValue`，事件名是`update:modelValue`，可修改此值来实现传多个`v-model`
+>
+>    src\App.vue
+>
+>    ```vue
+>    <!-- src\App.vue -->
+>    <script setup>
+>    import { ref } from 'vue'
+>    import MyComponent from './components/MyComponent.vue'
+>    let username = ref('zhangsan')
+>    let password = ref(123456)
+>    </script>
+>    
+>    <template>
+>        {{ username }}
+>        {{ password }}
+>        <MyComponent v-model:user="username" v-model:pwd="password" />
+>    </template>
+>    ```
+>
+>    src\components\MyComponent.vue
+>
+>    ```vue
+>    <!-- src\components\MyComponent.vue -->
+>    <script setup>
+>    defineProps(['user', 'pwd'])
+>    const emit = defineEmits(['update:user', 'update:pwd'])
+>    </script>
+>    
+>    <template>
+>        <input type="text" :value="user" @input="emit('update:user', $event.target.value)">
+>        <input type="text" :value="pwd" @input="emit('update:pwd', $event.target.value)">
+>    </template>
+>    ```
+
+##### Ⅵ.*11.模板引用
+
+* 标签`ref`
 
   src/App.vue
 
   ```vue
   <!-- src\App.vue -->
   <script setup>
-  import MyComponent from './components/MyComponent.vue'
-  let data = '变量数据'
+  import { useTemplateRef } from "vue"
+  function clickHandle() {
+    console.log(useTemplateRef("container"));
+  }
   </script>
   
   <template>
-    <MyComponent msg="数据" :data="data" />
-  </template>
-  ```
-  
-  src/components/MyComponent.vue
-  
-  ```vue
-  <!-- src\components\MyComponent.vue -->
-  <script setup>
-  // 1.可使用数组接收
-  const props = defineProps(['msg', 'data'])
-  // 2.可使用对象形式接收
-  // const props = defineProps({
-  //   msg: String,
-  //   data: String
-  // })
-  </script>
-  
-  <template>
-    {{ msg }}, {{ data }}
+    <div ref="container">模板引用</div>
+    <button @click="clickHandle">获取元素</button>
   </template>
   ```
 
+* 组件`ref`
 
-* 模板引用
-
-  * 标签`ref`
+  * 父组件访问子组件`ref`，子组件需要使用`defineExpose`导出
 
     src/App.vue
-
+  
     ```vue
     <!-- src\App.vue -->
     <script setup>
-    import { useTemplateRef } from "vue"
-    function clickHandle() {
-      console.log(useTemplateRef("container"));
+    import MyComponent from './components/MyComponent.vue'
+    import { ref, useTemplateRef, onMounted } from 'vue'
+    
+    let myComponent = useTemplateRef('myComponent')
+    // 也可使用以下写法，但是变量名需要与ref的定义名一致
+    // let myComponent = ref()
+    onMounted(() => {
+        console.log(`${myComponent.value.msg}`)
+    })
+    function getRefs(refs) {
+        for (let key in refs) {
+            refs[key].msg += '#'
+        }
     }
     </script>
     
     <template>
-      <div ref="container">模板引用</div>
-      <button @click="clickHandle">获取元素</button>
+        <MyComponent ref="myComponent"></MyComponent>
+        <button @click="getRefs($refs)">获取所有子组件refs</button>
     </template>
     ```
-
-  * 组件`ref`，若子组件需要被父组件访问`ref`，需要使用`defineExpose`导出
-
-    src/App.vue
-
-    ```vue
-    <!-- src\App.vue -->
-    <script setup>
-    import MyComponent from './components/MyComponent.vue';
-    import { useTemplateRef, onMounted } from 'vue';
-    let myComponent = useTemplateRef('myComponent')
-    onMounted(() => {
-      console.log(`${myComponent.value.msg}`)
-    })
-    </script>
-    
-    <template>
-      <MyComponent ref="myComponent"></MyComponent>
-    </template>
-    ```
-
+  
     > 注意：因为`setup`执行时子组件还没挂载，因此需要在`onMounted`或事件处理函数中访问
-
-    src/components\MyComponent.vue
-
+  
+    src\components\MyComponent.vue
+  
     ```vue
     <!-- src\components\MyComponent.vue -->
     <script setup>
     import { ref } from 'vue'
     let msg = ref('abc')
     defineExpose({
-      msg
+        msg
     })
     </script>
     
     <template>
+        {{ msg }}
     </template>
     ```
-
-* getCurrentInstance方法代替this
-
-  src/App.vue
-
-  ```vue
-  <!-- src\App.vue -->
-  <script setup>
-  import { getCurrentInstance } from 'vue'
-  console.log(getCurrentInstance())
-  </script>
   
-  <template>
-  </template>
-  ```
+  * 子组件访问父组件`ref`，父组件需要使用`defineExpose`导出
+  
+    src\App.vue
+  
+    ```vue
+    <!-- src\App.vue -->
+    <script setup>
+    import { ref } from 'vue'
+    import MyComponent from './components/MyComponent.vue'
+    
+    let msg = ref('abc')
+    defineExpose({
+        msg
+    })
+    </script>
+    
+    <template>
+        {{ msg }}
+        <MyComponent />
+    </template>
+    ```
+  
+    src\components\MyComponent.vue
+  
+    ```vue
+    <!-- src\components\MyComponent.vue -->
+    <script setup>
+    function getParent(parent) {
+        parent.msg += '#'
+    }
+    </script>
+    
+    <template>
+        <button @click="getParent($parent)">获取父组件</button>
+    </template>
+    ```
+  
+  > 注意：
+  >
+  > 1. `$refs`为对象，包含所有被`ref`属性标识的`DOM`元素或组件实例
+  > 2. `$parent`为对象，当前组件的父组件实例对象
+  > 3. 因为父组件只有一个，而子组件会有多个，因此`$refs`使用较为复杂一些
+  > 4. 未知：`$refs`和`$parent`都只能在`DOM`中传入（比如点击按钮传参），无法主动从`script`脚本语言中获取
 
-#### 15.Vue3
+##### Ⅶ.*12.组件
 
-Vue3推荐使用组合式API，对比Vue2的使用方式有些变化
+###### i.*Ⅳ.Props组件数据传递
 
-#### 16.Vue3+TypeScript
+src/App.vue
 
-通过`script`标签中定义`lang`来使用TypeScript语法规范`<script lang="ts">...</script>`
+```vue
+<!-- src\App.vue -->
+<script setup name="App">
+import MyComponent from './components/MyComponent.vue'
+let data = '变量数据'
+</script>
 
-##### Ⅰ.自定义类型的接口规范
-
-TypeScript中一般自定义类型会被接口所规范，规范存于src/types文件夹中
-
-src\types\index.ts
-
-```typescript
-// src\types\index.ts
-
-// 定义一个接口，用于限制person对象的具体属性
-export interface PersonInter {
-    id: string,
-    name: string,
-    age: number
-}
-// 定义一个类型
-export type Persons = PersonInter[]// Array<PersonInter>
+<template>
+  <MyComponent msg="数据" :data="data" />
+</template>
 ```
+
+src/components/MyComponent.vue
+
+```vue
+<!-- src\components\MyComponent.vue -->
+<script setup>
+// 1.可使用数组接收
+const props = defineProps(['msg', 'data'])
+// 2.可使用对象形式接收
+// const props = defineProps({
+//   msg: String,
+//   data: String
+// })
+</script>
+
+<template>
+  {{ msg }}, {{ data }}
+</template>
+```
+
+传递函数以实现数据从子组件传递到父组件
 
 src\App.vue
 
 ```vue
 <!-- src\App.vue -->
-<script setup lang="ts">
-import { type PersonInter, type Persons } from '@/types';
-let person: PersonInter = { id: 'i10001', name: 'zhangsan', age: 18 }
-let persons: Persons = [
-  { id: 'i10002', name: 'lisi', age: 18 }
-]
+<script setup name="App">
+import MyComponent from './components/MyComponent.vue'
+
+function fn(msg) {
+    console.log(msg)
+}
+</script>
+
+<template>
+    <MyComponent :onEvent="fn" />
+</template>
+```
+
+src\components\MyComponent.vue
+
+```vue
+<!-- src\components\MyComponent.vue -->
+<script setup>
+defineProps(['onEvent'])
+</script>
+
+<template>
+    <button @click="onEvent('子数据')">fn</button>
+</template>
+```
+
+###### ii.*Ⅴ.组件事件
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup name="App">
+import MyComponent from './components/MyComponent.vue'
+
+function receiveHandle(msg) {
+    console.log(msg)
+}
+</script>
+
+<template>
+    <MyComponent @on-sending="receiveHandle" />
+</template>
+```
+
+src\components\MyComponent.vue
+
+```vue
+<!-- src\components\MyComponent.vue -->
+<script setup>
+const emit = defineEmits(['on-sending'])
+</script>
+
+<template>
+    <button @click="emit('on-sending', 123)">点击传递</button>
+</template>
+```
+
+###### iii.*Ⅶ.组件生命周期
+
+vue3新增创建阶段`setup`生命周期，在`OnBeforeMount`之前
+
+vue3子组件先挂载，父组件后挂载
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { onMounted } from "vue"
+
+onMounted(() => {
+  console.log("on mounted");
+})
 </script>
 
 <template>
 </template>
 ```
 
-##### Ⅱ.响应式数据
+###### iv.*Ⅹ.依赖注入
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { ref, reactive, provide } from 'vue'
+import MyComponent from './components/MyComponent.vue'
+
+let a = ref(100)
+let b = reactive({
+    id: 10000,
+    name: 'zhangsan'
+})
+function c(val) {
+    a.value += val
+}
+// 向后代提供数据
+provide('a', a)
+provide('bc', { b, c })
+</script>
+
+<template>
+    <MyComponent />
+</template>
+```
+
+src\components\MyComponent.vue
+
+```vue
+<!-- src\components\MyComponent.vue -->
+<script setup>
+import { inject } from 'vue'
+
+// 第二个参数为默认值
+let a = inject('a', 1)
+let { b, c } = inject('bc', { b: { id: 0, name: '', c: (x) => { } } })
+</script>
+
+<template>
+    <p>{{ a }}</p>
+    <p>{{ b.id }}, {{ b.name }}</p>
+    <button @click="c(2)">Add</button>
+</template>
+```
+
+###### v.$attrs
+
+`$attrs`用于实现当前组件的父组件，向当前组件的子组件通信（祖->孙）
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import GrandFather from './components/GrandFather.vue'
+</script>
+
+<template>
+    <GrandFather />
+</template>
+```
+
+src\components\GrandFather.vue
+
+```vue
+<!-- src\components\GrandFather.vue -->
+<script setup>
+import { ref } from 'vue'
+import Mediator from './Mediator.vue'
+
+let a = ref(1)
+let b = ref(2)
+function c(val) {
+    b.value += val
+}
+</script>
+
+<template>
+    <div>
+        <Mediator :a="a" :b="b" :c="c" />
+    </div>
+</template>
+```
+
+src\components\Mediator.vue
+
+```vue
+<!-- src\components\Mediator.vue -->
+<script setup>
+import GrandChild from './GrandChild.vue'
+
+// a通过props获取后，则会在$attrs中排除
+defineProps(['a'])
+</script>
+
+<template>
+    <div>
+        <!-- 通过v-bind将attrs作为属性继续传递子组件 -->
+        <GrandChild v-bind="$attrs" />
+    </div>
+</template>
+```
+
+> 注意：`$attrs`会自动排除`props`中声明的属性
+
+src\components\GrandChild.vue
+
+```vue
+<!-- src\components\GrandChild.vue -->
+<script setup>
+defineProps(['b', 'c'])
+</script>
+
+<template>
+    <div>
+        {{ b }}
+    </div>
+    <button @click="c(2)">Add</button>
+</template>
+```
+
+> 注意：以上组件使用`<div>`标签包裹是排除透传属性影响
+
+##### Ⅷ.其他API
+
+###### i.shallowRef与shallowReactive
+
+`shallowRef`创建一个响应式数据，但只对顶层属性进行响应式处理；`shallowReactive`创建一个响应式对象，但只对对象的最顶层属性进行响应式处理，更深层的嵌套属性则非响应式
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { shallowRef, shallowReactive } from 'vue'
+
+let a = shallowRef(1)
+let b = shallowRef({
+    name: 'zhangsan'
+})
+function changeA() {
+    a.value += 1
+}
+// .value更深层次的修改非响应式
+function changeName() {
+    b.value.name = 'lisi'
+}
+function changeB() {
+    b.value = { name: 'lisi' }
+}
+
+let c = shallowReactive({
+    id: 10001,
+    options: {
+        color: 'red'
+    }
+})
+function changeId() {
+    c.id += 1
+}
+// 除第一层外，更深层次的修改非响应式
+function changeColor() {
+    c.options.color = '黑色'
+}
+</script>
+
+<template>
+    <p>a: {{ a }}</p>
+    <p>b.name: {{ b.name }}</p>
+    <p>c.id: {{ c.id }}</p>
+    <p>c.options.color: {{ c.options.color }}</p>
+    <button @click="changeA">改变a</button>
+    <button @click="changeName">改变b名字</button>
+    <button @click="changeB">改变b</button>
+    <button @click="changeId">改变c的id</button>
+    <button @click="changeColor">改变c的颜色</button>
+</template>
+```
+
+> 总结：`shallowRef`和`shallowReactive`只在其顶层处理响应式，对深层的对象不做处理，性能更佳
+
+###### ii.readonly与shallowReadonly
+
+`readonly`用于创建一个响应式对象的只读副本（地址仍然指向对象），任何尝试修改副本的操作都会被阻止；`shallowReadonly`与`readonly`类似，但只作用于对象的顶层属性，更深层的嵌套属性仍然可变
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { reactive, readonly, shallowReadonly } from 'vue'
+
+let a = reactive({
+    name: 'zhangsan'
+})
+let aReadonly = readonly(a)
+function changeA() {
+    a.name += '#'
+    aReadonly.name += '#'// 无效
+}
+
+let b = reactive({
+    id: 10001,
+    options: {
+        color: 'red'
+    }
+})
+let bShallowReadonly = shallowReadonly(b)
+function changeB() {
+    bShallowReadonly.id += 1// 无效
+    bShallowReadonly.options.color += '#'
+}
+</script>
+
+<template>
+    <p>a.name: {{ a.name }}</p>
+    <p>aReadonly.name: {{ aReadonly.name }}</p>
+    <p>b.id: {{ b.id }}</p>
+    <p>b.option.color: {{ b.options.color }}</p>
+    <button @click="changeA">改变a</button>
+    <button @click="changeB">改变b</button>
+</template>
+```
+
+###### iii.toRaw与markRaw
+
+`toRaw`用于获取一个响应式对象的原始对象，其返回的对象不再是响应式的；`markRaw`标记一个对象，使其不会变成响应式的
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { reactive, toRaw, markRaw } from 'vue'
+// 响应式对象
+let a = reactive({
+    name: 'zhangsan'
+})
+// 原始对象
+let toRawA = toRaw(a)
+
+// 标记markRaw
+let markRawB = markRaw({
+    id: 10001,
+    options: {
+        color: 'red'
+    }
+})
+// 即使被reactive封装后也不会成为响应式
+let b = reactive(markRawB)
+</script>
+
+<template>
+</template>
+```
+
+###### iv.customRef
+
+创建一个自定义的`ref`，并对其依赖项跟踪和更新触发进行逻辑控制
+
+示例中表单输入时，延时一秒再显示
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import { customRef } from 'vue'
+
+let initValue = 'abc'
+let timer
+let msg = customRef((track, trigger) => {
+    return {
+        get() {
+            track()// 跟踪，变化则更新（vue框架处理）
+            return initValue
+        },
+        // 标准set
+        // set(value) {
+        //     initValue = value
+        //     trigger()// 触发，数据已变化（vue框架处理）
+        // }
+        // 数据等待1秒再变化
+        set(value) {
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                initValue = value
+                trigger()// 触发，数据已变化（vue框架处理）
+            }, 1000)
+        }
+    }
+})
+</script>
+
+<template>
+    {{ msg }}
+    <input type="text" v-model="msg">
+</template>
+```
+
+> 注意：一般自定义ref会被hooks封装起来，再向外部组件提供服务
+
+##### Ⅸ.Teleport
+
+`Teleport`是一种能将组件`html`解构移动到指定位置的技术
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import MyComponent from './components/MyComponent.vue'
+</script>
+
+<template>
+    <div class="app">
+        <MyComponent />
+    </div>
+</template>
+```
+
+src\components\MyComponent.vue
+
+```vue
+<!-- src\components\MyComponent.vue -->
+<template>
+    <Teleport to="body">
+        <div class="myComponent">
+            <p>子组件Teleport标签的内容会被移动到body中</p>
+        </div>
+    </Teleport>
+</template>
+```
+
+##### Ⅹ.Suspense
+
+等待异步组件时渲染一些额外内容，提高用户体验
+
+在`setup`中存在异步方法，在等待异步方法执行完成前作出其他的渲染
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import MyComponent from './components/MyComponent.vue'
+</script>
+
+<template>
+    <Suspense>
+        <template v-slot:default>
+            <MyComponent />
+        </template>
+        <template v-slot:fallback>
+            <h2>加载中...</h2>
+        </template>
+    </Suspense>
+</template>
+```
+
+src\components\MyComponent.vue
+
+```vue
+<!-- src\components\MyComponent.vue -->
+<script setup>
+import axios from 'axios'
+
+let { data: { content } } = await axios.get('https://api.uomg.com/api/rand.qinghua?format=json')
+console.log(content)
+</script>
+
+<template>
+</template>
+```
+
+#### 16.TypeScript（Vue3）
+
+通过`script`标签中定义`lang`来使用TypeScript语法规范`<script lang="ts">...</script>`
+
+##### Ⅰ.响应式数据
 
 一般响应式数据，官方已提供泛型来供ts使用，比如`ref<>`、`reactive<>`等，有些需要注意的如下：
 
@@ -6538,7 +7088,1242 @@ let persons: Persons = [
   })
   ```
 
-  
+##### Ⅱ.自定义类型的接口规范
 
+TypeScript中一般自定义类型会被接口所规范，规范存于src/types文件夹中
+
+src\types\index.ts
+
+```typescript
+// src\types\index.ts
+// 定义一个接口，用于限制person对象的具体属性
+export interface PersonInter {
+    id: string,
+    name: string,
+    age: number
+}
+// 定义一个类型
+export type Persons = PersonInter[]// Array<PersonInter>
+```
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import { type PersonInter, type Persons } from '@/types'
+let person: PersonInter = { id: 'i10001', name: 'zhangsan', age: 18 }
+let persons: Persons = [
+  { id: 'i10002', name: 'lisi', age: 18 }
+]
+</script>
+
+<template>
+</template>
+```
+
+##### Ⅲ.自定义hooks封装
+
+将可重用的逻辑代码从组件中抽离，创建独立的可测试的函数，这类函数称为自定义hooks（组合式函数），hook文件通常以`use`为前缀命名，放在src\hooks下
+
+示例中会用到axios，先在项目的根目录下安装axios：`npm install axios`
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import useImg from '@/hooks/useImg'
+const { imgList, AddImg } = useImg()
+</script>
+
+<template>
+  <img v-for="(img, index) in imgList" :src="img" :key="index">
+  <button @click="AddImg">Add</button>
+</template>
+```
+
+src\hooks\useImg.ts
+
+```typescript
+// src\hooks\useImg.ts
+import { reactive } from 'vue'
+import axios from 'axios'
+
+export default function () {
+    let imgList = reactive([
+        'https://images.dog.ceo/breeds/pembroke/n02113023_15462.jpg'
+    ])
+    async function AddImg() {
+        try {
+            let result = await axios.get('https://dog.ceo/api/breed/pembroke/images/random')
+            imgList.push(result.data.message)
+        } catch (error) {
+            alert(error)
+        }
+    }
+
+    // 向外部提供功能
+    return { imgList, AddImg }
+}
+```
+
+##### Ⅳ.全局API转移到应用对象
+
+vue2中的`vue.xxxx`转移到`app.xxx`
+
+src\main.ts
+
+```typescript
+// src\main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import MyComponent from './components/MyComponent.vue'
+
+const app = createApp(App)
+
+// app.component，全局组件
+app.component('MyComponent', MyComponent)
+
+// app.config，全局属性
+app.config.globalProperties.x = 99
+// 为全局属性声明类型，否则TypeScript报错
+declare module 'vue' {
+    interface ComponentCustomProperties {
+        x: number
+    }
+}
+
+// app.directive，全局指令
+app.directive('decorate', (element, { value }) => {
+    element.innerText += value
+    element.style.color = 'red'
+})
+
+// app.use，安装插件
+
+// app.mount，挂载应用
+app.mount('#app')
+
+// app.unmount，卸载应用
+setTimeout(() => {
+    app.unmount()
+}, 5000)
+```
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+</script>
+
+<template>
+    <!-- 全局组件 -->
+    <MyComponent />
+    <!-- 全局属性 -->
+    {{ x }}
+    <!-- 全局指令 -->
+    <h3 v-decorate="123">全局指令</h3>
+</template>
+```
+
+src\components\MyComponent.vue
+
+```vue
+<!-- src\components\MyComponent.vue -->
+<template>
+</template>
+```
+
+##### Ⅴ.其他
+
+* 过渡类名`v-enter`修改为`v-enter-from`、过渡类名`v-leave`修改为`v-leave-from`
+* `keyCode`作为`v-on`修饰符的支持
+* `v-model`指令在组件上的使用已经被重新设计，替换掉了`v-bind.sync`
+* `v-if`和`v-for`在同一个元素身上使用时的优先级发生了变化
+* 移除了`$on`、`$off`和`$once`实例方法
+* 移除了过滤器`filter`
+* 移除了`$children`实例`propert`
+
+#### 17.路由
+
+在单页面应用中，根据URL动态获取新的数据，在无需重新加载的情况下更新页面
+
+##### Ⅰ.环境搭建
+
+安装vue官方路由，项目的根目录下执行：`npm install vue-router`
+
+src\main.ts
+
+```typescript
+// src\main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+// 引入路由器（路径默认引入index文件）
+import router from './router'
+
+const app = createApp(App)
+//使用路由器
+app.use(router)
+app.mount('#app')
+```
+
+##### Ⅱ.基本使用
+
+路由定义文件一般放在src\router文件夹下，而路由组件一般放在src\pages或src\views文件夹下
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import { RouterView, RouterLink } from 'vue-router'
+</script>
+
+<template>
+  <div class="app">
+    <h2>Vue路由测试</h2>
+    <!-- 导航区 -->
+    <div class="navigate">
+      <!-- active-class是RouterLink的属性，当点击后只对其类型赋值，其他节点则取消，用于样式切换 -->
+      <RouterLink to="/home" active-class="">首页</RouterLink>
+      <RouterLink to="/news" active-class="">新闻</RouterLink>
+      <!-- to的另一种写法，使用对象写法 -->
+      <RouterLink :to="{ path: '/about' }" active-class="">关于</RouterLink>
+    </div>
+    <!-- 展示区 -->
+    <div class="main-content">
+      <RouterView></RouterView>
+    </div>
+  </div>
+</template>
+```
+
+src\pages\Home.vue
+
+```vue
+<!-- src\pages\Home.vue -->
+<template>
+    <p>首页</p>
+</template>
+```
+
+src\pages\News.vue
+
+```vue
+<!-- src\pages\News.vue -->
+<template>
+    <p>新闻</p>
+</template>
+```
+
+src\pages\About.vue
+
+```vue
+<!-- src\pages\About.vue -->
+<template>
+    <p>关于</p>
+</template>
+```
+
+src\router\index.ts
+
+```typescript
+// src\router\index.ts
+import { createRouter, createWebHistory } from "vue-router"
+import Home from "@/pages/Home.vue"
+import News from "@/pages/News.vue"
+import About from "@/pages/About.vue"
+
+// 创建路由器
+const router = createRouter({
+    // 路由器的工作模式
+    history: createWebHistory(),
+    // 路由规则
+    routes: [
+        {
+            path: '/home',
+            component: Home
+        },
+        {
+            path: '/news',
+            component: News
+        },
+        {
+            path: '/about',
+            component: About
+        }
+    ]
+})
+
+export default router
+```
+
+> 注意：点击导航时，被切换消失的路由组件，默认是被卸载掉，需要的时候再重新挂载
+
+##### Ⅲ.路由器的工作模式
+
+1. `history`模式
+
+   `Url`更加美观，不带有`#`，但是需要服务端配合处理路径问题，否则刷新会有404错误
+
+   ```typescript
+   const router = createRouter({
+       history: createWebHistory(),// history模式
+       /* ... */
+   })
+   ```
+
+2. `hash`模式
+
+   兼容性更好，不需要服务端处理路径问题，但是`Url`带有`#`不美观，`SEO`优化相对较差
+
+   ```typescript
+   const router = createRouter({
+       history: createWebHashHistory(),// hash模式
+       /* ... */
+   })
+   ```
+
+##### Ⅳ.路由规则命名
+
+创建路由时命名
+
+```typescript
+const router = createRouter({
+    /* ... */
+    routes: [
+        {
+            name: 'guanyu',
+            path: '/about',
+            component: Home
+        }
+    ]
+})
+```
+
+命名可被应用于导航
+
+```vue
+<RouterLink :to="{ name: 'guanyu' }" active-class="">关于</RouterLink>
+```
+
+##### Ⅴ.嵌套路由
+
+在基本使用例子中作出如下修改
+
+src\pages\News.vue
+
+```vue
+<!-- src\pages\News.vue -->
+<script setup lang="ts">
+import { RouterView, RouterLink } from 'vue-router'
+</script>
+
+<template>
+    <!-- 导航区 -->
+    <div class="news-navigate">
+        <RouterLink to="/news/detail1">新闻1</RouterLink>
+        <RouterLink to="/news/detail2">新闻2</RouterLink>
+    </div>
+    <!-- 展示区 -->
+    <div class="news-content">
+        <RouterView></RouterView>
+    </div>
+</template>
+```
+
+src\pages\Detail1.vue
+
+```vue
+<!-- src\pages\Detail1.vue -->
+<template>
+    <p>新闻内容1</p>
+</template>
+```
+
+src\pages\Detail2.vue
+
+```vue
+<!-- src\pages\Detail2.vue -->
+<template>
+    <p>新闻内容2</p>
+</template>
+```
+
+src\router\index.ts
+
+```typescript
+// src\router\index.ts
+import { createRouter, createWebHistory } from "vue-router"
+import Home from "@/pages/Home.vue"
+import News from "@/pages/News.vue"
+import About from "@/pages/About.vue"
+import Detail1 from "@/pages/Detail1.vue"
+import Detail2 from "@/pages/Detail2.vue"
+
+// 创建路由器
+const router = createRouter({
+    // 路由器的工作模式
+    history: createWebHistory(),
+    // 路由规则
+    routes: [
+        {
+            path: '/home',
+            component: Home
+        },
+        {
+            path: '/news',
+            component: News,
+            children: [
+                {
+                    // 嵌套路由无需加斜杠
+                    path: 'detail1',
+                    component: Detail1
+                },
+                {
+                    path: 'detail2',
+                    component: Detail2
+                }
+            ]
+        },
+        {
+            path: '/about',
+            component: About
+        }
+    ]
+})
+
+export default router
+```
+
+##### Ⅵ.query参数
+
+在基本使用例子中作出如下修改
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import { RouterView, RouterLink } from 'vue-router'
+let a = 123
+let b = 456
+</script>
+
+<template>
+  <div class="app">
+    <h2>Vue路由测试</h2>
+    <div class="navigate">
+      <RouterLink to="/home">首页</RouterLink>
+      <RouterLink to="/news">新闻</RouterLink>
+      <!-- query参数第一种写法 -->
+      <!-- <RouterLink to="/about?a=123&b=456">关于</RouterLink> -->
+      <!-- query参数第二种写法 -->
+      <RouterLink :to="{
+        path: '/about',
+        query: {
+          a: a,
+          b: b
+        }
+      }">关于</RouterLink>
+    </div>
+    <div class="main-content">
+      <RouterView></RouterView>
+    </div>
+  </div>
+</template>
+```
+
+src\pages\About.vue
+
+```vue
+<!-- src\pages\About.vue -->
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+</script>
+
+<template>
+    <p>{{ route.query.a }}, {{ route.query.b }}</p>
+</template>
+```
+
+##### Ⅶ.params参数
+
+在基本使用例子中作出如下修改
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import { RouterView, RouterLink } from 'vue-router'
+let a = 123
+let b = 456
+</script>
+
+<template>
+  <div class="app">
+    <h2>Vue路由测试</h2>
+    <div class="navigate">
+      <RouterLink to="/home">首页</RouterLink>
+      <RouterLink to="/news">新闻</RouterLink>
+      <!-- params参数第一种写法 -->
+      <!-- <RouterLink to="/about/123/456">关于</RouterLink> -->
+      <!-- params参数第二种写法（需要通过路由规则名称来指定） -->
+      <RouterLink :to="{
+        name: 'guanyu',
+        params: {
+          a: a,
+          b: b
+        }
+      }">关于</RouterLink>
+    </div>
+    <div class="main-content">
+      <RouterView></RouterView>
+    </div>
+  </div>
+</template>
+```
+
+> 注意：params参数不能是对象或数组
+
+src\pages\About.vue
+
+```vue
+<!-- src\pages\About.vue -->
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+</script>
+
+<template>
+    <p>{{ route.params.a }}, {{ route.params.b }}</p>
+</template>
+```
+
+src\router\index.ts
+
+```typescript
+// src\router\index.ts
+import { createRouter, createWebHistory } from "vue-router"
+import Home from "@/pages/Home.vue"
+import News from "@/pages/News.vue"
+import About from "@/pages/About.vue"
+
+// 创建路由器
+const router = createRouter({
+    // 路由器的工作模式
+    history: createWebHistory(),
+    // 路由规则
+    routes: [
+        {
+            path: '/home',
+            component: Home
+        },
+        {
+            path: '/news',
+            component: News
+        },
+        {
+            name: 'guanyu',
+            path: '/about/:a/:b?',// ?表示可选参数
+            component: About
+        }
+    ]
+})
+
+export default router
+```
+
+> 注意：使用params参数需要提前在路由规则中占位
+
+##### Ⅷ.路由的props配置
+
+* 第一种写法，只支持`params`参数，在`params参数`例子中作出如下修改
+
+  src\pages\About.vue
+
+  ```vue
+  <!-- src\pages\About.vue -->
+  <script setup lang="ts">
+  defineProps(['a', 'b'])
+  </script>
   
+  <template>
+      <p>{{ a }}, {{ b }}</p>
+  </template>
+  ```
+
+  src\router\index.ts
+
+  ```typescript
+  // src\router\index.ts
+  import { createRouter, createWebHistory } from "vue-router"
+  import Home from "@/pages/Home.vue"
+  import News from "@/pages/News.vue"
+  import About from "@/pages/About.vue"
+  
+  // 创建路由器
+  const router = createRouter({
+      // 路由器的工作模式
+      history: createWebHistory(),
+      // 路由规则
+      routes: [
+          {
+              path: '/home',
+              component: Home
+          },
+          {
+              path: '/news',
+              component: News
+          },
+          {
+              name: 'guanyu',
+              path: '/about/:a/:b?',// ?表示可选参数
+              component: About,
+              props: true
+          }
+      ]
+  })
+  
+  export default router
+  ```
+
+* 第二种写法，自定义`props`内容，在第一种写法中作出如下修改
+
+  src\router\index.ts
+
+  ```typescript
+  // src\router\index.ts
+  import { createRouter, createWebHistory } from "vue-router"
+  import Home from "@/pages/Home.vue"
+  import News from "@/pages/News.vue"
+  import About from "@/pages/About.vue"
+  
+  // 创建路由器
+  const router = createRouter({
+      // 路由器的工作模式
+      history: createWebHistory(),
+      // 路由规则
+      routes: [
+          {
+              path: '/home',
+              component: Home
+          },
+          {
+              path: '/news',
+              component: News
+          },
+          {
+              name: 'guanyu',
+              path: '/about/:a/:b?',// ?表示可选参数
+              component: About,
+              // return route.params时等同于props: true；若使用query参数，则return route.query
+              props(route) {// route包含了路由信息
+                  return route.params
+              }
+          }
+      ]
+  })
+  
+  export default router
+  ```
+
+* 第三种写法（不常用），使用对象定义`props`内容，在第一种写法中作出如下修改
+
+  ```typescript
+  // src\router\index.ts
+  import { createRouter, createWebHistory } from "vue-router"
+  import Home from "@/pages/Home.vue"
+  import News from "@/pages/News.vue"
+  import About from "@/pages/About.vue"
+  
+  // 创建路由器
+  const router = createRouter({
+      // 路由器的工作模式
+      history: createWebHistory(),
+      // 路由规则
+      routes: [
+          {
+              path: '/home',
+              component: Home
+          },
+          {
+              path: '/news',
+              component: News
+          },
+          {
+              name: 'guanyu',
+              path: '/about/:a/:b?',// ?表示可选参数
+              component: About,
+              props: {
+                  a: 123,
+                  b: 456
+              }
+          }
+      ]
+  })
+  
+  export default router
+  ```
+
+
+##### Ⅸ.路由的replace属性
+
+浏览器历史默认使用`push`模式，每次重定向则`push`一条记录，用于前进后退操作
+
+`replace`模式会直接覆盖当前历史，使用时只需要在`RouterLink`加上`replace`属性
+
+##### Ⅹ.编程式路由导航
+
+在脚本中实现路由跳转，在基本使用例子中作出如下修改
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { RouterView, RouterLink, useRouter } from 'vue-router'
+
+const router = useRouter()
+onMounted(() => {
+  // 3秒后路由到【关于】组件
+  setTimeout(() => {
+    router.push('/about')
+  }, 3000)
+})
+</script>
+
+<template>
+  <div class="app">
+    <h2>Vue路由测试</h2>
+    <div class="navigate">
+      <RouterLink to="/home">首页</RouterLink>
+      <RouterLink to="/news">新闻</RouterLink>
+    </div>
+    <div class="main-content">
+      <RouterView></RouterView>
+    </div>
+  </div>
+</template>
+```
+
+脚本中实现路由跳转也可以使用对象写法（`router.push()`支持`RouterLink`的`to`的所有写法），实现路由命名和带参数的跳转
+
+在基本使用例子中作出如下修改
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import { RouterView, RouterLink, useRouter } from 'vue-router'
+
+interface objInter {
+  a: string,
+  b: string
+}
+
+const router = useRouter()
+function showAbout(obj: objInter) {
+  router.push({
+    path: '/about',
+    query: {
+      a: obj.a,
+      b: obj.b
+    }
+  })
+}
+</script>
+
+<template>
+  <div class="app">
+    <h2>Vue路由测试</h2>
+    <div class="navigate">
+      <RouterLink to="/home">首页</RouterLink>
+      <RouterLink to="/news">新闻</RouterLink>
+      <button @click="showAbout({
+        a: '123',
+        b: '456'
+      })">关于</button>
+    </div>
+    <div class="main-content">
+      <RouterView></RouterView>
+    </div>
+  </div>
+</template>
+```
+
+src\pages\About.vue
+
+```vue
+<!-- src\pages\About.vue -->
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+</script>
+
+<template>
+    <p>{{ route.query.a }}, {{ route.query.b }}</p>
+</template>
+```
+
+> 注意：`route.push()`也可使用`route.replace()`，即使用路由的`replace`属性
+
+##### Ⅺ.路由重定向
+
+基本使用中，默认首页`/`没有路由规则，因此会报出警告，可以使用重定向，将首页路由到`/home`，在基本使用例子中作出如下修改
+
+src\router\index.ts
+
+```typescript
+// src\router\index.ts
+import { createRouter, createWebHistory } from "vue-router"
+import Home from "@/pages/Home.vue"
+import News from "@/pages/News.vue"
+import About from "@/pages/About.vue"
+
+// 创建路由器
+const router = createRouter({
+    // 路由器的工作模式
+    history: createWebHistory(),
+    // 路由规则
+    routes: [
+        {
+            path: '/home',
+            component: Home
+        },
+        {
+            path: '/news',
+            component: News
+        },
+        {
+            path: '/about',
+            component: About
+        },
+        {
+            path: '/',
+            redirect: '/home'
+        }
+    ]
+})
+
+export default router
+```
+
+#### 18.Pinia
+
+vue的集中式状态（数据）管理，用于组件之间的数据共享
+
+##### Ⅰ.环境搭建
+
+在项目的根目录下执行安装：`npm install pinia`
+
+src\main.ts
+
+```typescript
+// src\main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+// 引入pinia
+import { createPinia } from 'pinia'
+
+const app = createApp(App)
+// 创建pinia
+const pinia = createPinia()
+// 使用pinia
+app.use(pinia)
+app.mount('#app')
+```
+
+##### Ⅱ.基本使用
+
+一般数据存储的定义文件会被放在src\store文件夹下，命名与对应的组件一致，但是开头小写
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import Chat from './components/Chat.vue'
+</script>
+
+<template>
+  <Chat></Chat>
+</template>
+```
+
+src\components\Chat.vue
+
+```vue
+<!-- src\components\Chat.vue -->
+<script setup lang="ts">
+import axios from 'axios'
+import { nanoid } from 'nanoid'
+import { useChatStore } from '@/store/chat'
+
+const charStore = useChatStore()
+// 以下两种方式都能获取state的数据
+// charStore.chatList
+// charStore.$state.chatList
+
+async function getChat() {
+    // 第一种修改方式，直接赋值
+    // let { data: { content: title } } = await axios.get('https://api.uomg.com/api/rand.qinghua?format=json')// 连续解构，并重命名
+    // let obj = { id: nanoid(), title }
+    // charStore.chatList.unshift(obj)
+    // charStore.count += 1
+
+    // 第二种修改方式，批量修改
+    // let { data: { content: title } } = await axios.get('https://api.uomg.com/api/rand.qinghua?format=json')// 连续解构，并重命名
+    // let obj = { id: nanoid(), title }
+    // charStore.$patch({
+    //     chatList: [obj, ...charStore.chatList],
+    //     count: charStore.count + 1
+    // })
+
+    // 第三种修改方式，调用actions
+    charStore.increment()
+}
+</script>
+
+<template>
+    <div>
+        <h3>{{ charStore.count }}</h3>
+        <ul>
+            <li v-for="item in charStore.chatList" :key="item.id">{{ item.title }}</li>
+        </ul>
+        <button @click="getChat">Add</button>
+    </div>
+</template>
+```
+
+src\store\chat.ts
+
+```typescript
+// src\store\chat.ts
+import { defineStore } from "pinia"
+import { nanoid } from "nanoid"
+import axios from "axios"
+
+export const useChatStore = defineStore('chat', {
+    // 存储的数据
+    state() {
+        return {
+            chatList: [
+                { id: nanoid(), title: '情话都是学来的，但爱你是真的' }
+            ],
+            count: 1
+        }
+    },
+    // 存储的方法
+    actions: {
+        async increment() {
+            let { data: { content: title } } = await axios.get('https://api.uomg.com/api/rand.qinghua?format=json')// 连续解构，并重命名
+            let obj = { id: nanoid(), title }
+            this.chatList.unshift(obj)
+            this.count += 1
+        }
+    }
+})
+```
+
+> 注意：存储的数据默认是响应式的，即获取时已使用`reactive`封装
+
+##### Ⅲ.数据解构
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import Chat from './components/Chat.vue'
+</script>
+
+<template>
+  <Chat></Chat>
+</template>
+```
+
+src\components\Chat.vue
+
+```vue
+<!-- src\components\Chat.vue -->
+<script setup lang="ts">
+import { useChatStore } from '@/store/chat'
+import { storeToRefs } from 'pinia'
+
+const charStore = useChatStore()
+// 若使用toRefs()解构，则会把所有内容都执行解构，性能不佳
+const { count, title, msg } = storeToRefs(charStore)
+</script>
+
+<template>
+    <div>
+        <h3>{{ count }}, {{ title }}, {{ msg }}</h3>
+    </div>
+</template>
+```
+
+src\store\chat.ts
+
+```typescript
+// src\store\chat.ts
+import { defineStore } from "pinia"
+
+export const useChatStore = defineStore('chat', {
+    state() {
+        return {
+            count: 1,
+            title: '标题',
+            msg: '内容'
+        }
+    }
+})
+```
+
+##### Ⅳ.getters
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import Chat from './components/Chat.vue'
+</script>
+
+<template>
+  <Chat></Chat>
+</template>
+```
+
+src\components\Chat.vue
+
+```vue
+<!-- src\components\Chat.vue -->
+<script setup lang="ts">
+import { useChatStore } from '@/store/chat'
+
+const charStore = useChatStore()
+</script>
+
+<template>
+    <div>
+        <h3>{{ charStore.doubleCount }}</h3>
+    </div>
+</template>
+```
+
+src\store\chat.ts
+
+```typescript
+// src\store\chat.ts
+import { defineStore } from "pinia"
+
+export const useChatStore = defineStore('chat', {
+    state() {
+        return {
+            count: 1
+        }
+    },
+    getters: {
+        doubleCount(state) {
+            return state.count * 2// this.count * 2
+        }
+    }
+})
+```
+
+##### Ⅴ.$subscribe
+
+订阅state数据变化
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup lang="ts">
+import Chat from './components/Chat.vue'
+</script>
+
+<template>
+  <Chat></Chat>
+</template>
+```
+
+src\components\Chat.vue
+
+```vue
+<!-- src\components\Chat.vue -->
+<script setup lang="ts">
+import { useChatStore } from '@/store/chat'
+
+const charStore = useChatStore()
+function add() {
+    charStore.count += 1
+}
+
+charStore.$subscribe((mutate, state) => {
+    console.log(`数据变化:${state.count}`, mutate, state)
+})
+</script>
+
+<template>
+    <div>
+        <h3>{{ charStore.count }}</h3>
+        <button @click="add">Add</button>
+    </div>
+</template>
+```
+
+src\store\chat.ts
+
+```typescript
+// src\store\chat.ts
+import { defineStore } from "pinia"
+
+export const useChatStore = defineStore('chat', {
+    state() {
+        return {
+            count: 1
+        }
+    }
+})
+```
+
+##### Ⅵ.组合式写法
+
+在基本使用例子中作出如下修改
+
+src\store\chat.ts
+
+```typescript
+// src\store\chat.ts
+import { ref, reactive } from "vue"
+import { defineStore } from "pinia"
+import { nanoid } from "nanoid"
+import axios from "axios"
+
+export const useChatStore = defineStore('chat', () => {
+    // 存储的数据
+    let chatList = reactive([
+        { id: nanoid(), title: '情话都是学来的，但爱你是真的' }
+    ])
+    let count = ref(1)
+
+    // 存储的方法
+    async function increment() {
+        let { data: { content: title } } = await axios.get('https://api.uomg.com/api/rand.qinghua?format=json')// 连续解构，并重命名
+        let obj = { id: nanoid(), title }
+        chatList.unshift(obj)
+        count.value += 1
+    }
+
+    return { chatList, count, increment }
+})
+```
+
+#### 19.mitt
+
+事件总线库，用于组件之间进行事件通信
+
+##### Ⅰ.环境搭建
+
+在项目的根目录下执行安装：`npm install mitt`
+
+##### Ⅱ.基本使用
+
+一般第三方工具定义文件放在src\utils或src\tools文件夹下
+
+示例中，将数据从`MyComponent1.vue`传递到`MyComponent2.vue`，提供数据的组件负责触发（发布）事件，接收数据的组件绑定（订阅）事件
+
+src\utils\emitter.ts
+
+```typescript
+// src\utils\emitter.ts
+import mitt from "mitt"
+
+// 获取emitter，能绑定事件、触发事件
+const emitter = mitt()
+
+// 绑定事件
+// emitter.on('test1', () => {
+//     console.log('test1调用')
+// })
+
+// 触发事件
+// emitter.emit('test1')
+
+// 解绑事件
+// emitter.off('test1')
+
+// 解绑所有事件
+// emitter.all.clear()
+
+export default emitter
+```
+
+src\App.vue
+
+```vue
+<!-- src\App.vue -->
+<script setup>
+import MyComponent1 from './components/MyComponent1.vue'
+import MyComponent2 from './components/MyComponent2.vue'
+</script>
+
+<template>
+    <MyComponent1></MyComponent1>
+    <MyComponent2></MyComponent2>
+</template>
+```
+
+src\components\MyComponent1.vue
+
+```vue
+<!-- src\components\MyComponent1.vue -->
+<script setup>
+import { ref } from 'vue'
+import emitter from '@/utils/emitter'
+
+let data = ref('数据')
+</script>
+
+<template>
+    <button @click="emitter.emit('send-data', data)">传递</button>
+</template>
+```
+
+src\components\MyComponent2.vue
+
+```vue
+<!-- src\components\MyComponent2.vue -->
+<script setup>
+import { ref, onUnmounted } from 'vue'
+import emitter from '@/utils/emitter'
+
+let msg = ref('')
+//绑定事件
+emitter.on('send-data', (val) => {
+    msg.value = val
+})
+//解绑事件
+onUnmounted(() => {
+    emitter.off('send-data')
+})
+</script>
+
+<template>
+    {{ msg }}
+</template>
+```
+
+> 注意：组件卸载时把事件解绑
 
