@@ -3333,7 +3333,7 @@ let e = 99
 >       let lengthValue = tempStringObject.length
 >       // 3.销毁临时对象，返回长度值
 >       // JavaScript引擎自动处理对象销毁，开发者无感知
->                                     
+>                                         
 >       return lengthValue
 >   })
 >   ```
@@ -6436,7 +6436,7 @@ const emit = defineEmits(['update:modelValue'])
 >    let username = ref('zhangsan')
 >    let password = ref(123456)
 >    </script>
->    
+>          
 >    <template>
 >        {{ username }}
 >        {{ password }}
@@ -6452,7 +6452,7 @@ const emit = defineEmits(['update:modelValue'])
 >    defineProps(['user', 'pwd'])
 >    const emit = defineEmits(['update:user', 'update:pwd'])
 >    </script>
->    
+>          
 >    <template>
 >        <input type="text" :value="user" @input="emit('update:user', $event.target.value)">
 >        <input type="text" :value="pwd" @input="emit('update:pwd', $event.target.value)">
@@ -6955,7 +6955,7 @@ let b = reactive(markRawB)
 
 创建一个自定义的`ref`，并对其依赖项跟踪和更新触发进行逻辑控制
 
-示例中表单输入时，延时一秒再显示
+示例中表单输入时，延时一秒再显示（可以实现防抖）
 
 ```vue
 <!-- src\App.vue -->
